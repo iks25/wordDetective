@@ -53,7 +53,7 @@ public abstract class AbstractScreen  implements Screen{
         stage.act(Gdx.graphics.getDeltaTime());
     }
     private void clearScreen() {
-        Gdx.gl.glClearColor(1, 0, 0, 0);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
     @Override

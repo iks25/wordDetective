@@ -1,6 +1,7 @@
 package com.knowledgemagnet.detektywslow.game_objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.knowledgemagnet.detektywslow.MyGame;
 
@@ -24,45 +26,71 @@ public class Brick extends Group{
     MyGame game;
     private Action action;
     private Texture normal,green,red;
+    private Sound touchSound,wrongSound;
 
     public Brick(char letter,MyGame game) {
         super();
         this.letter = letter;
         this.game=game;
+        initTextures(game);
+
+        setSize(image.getWidth(),image.getHeight());
+        setDebug(true);
+        addActor(image);
+
+
+        Label c=Letter.createLetter(letter,game);
+        addActor(c);
+        c.setX(this.getWidth()/2-c.getWidth()/2);
+        c.setY(this.getHeight()/2-c.getHeight()/2+3);
+        this.setOrigin(getWidth()/2,getHeight()/2);
+
+        touchSound=game.assetManager.get("sound/buttonTouch.mp3",Sound.class);
+        //todo badSound
+
+    }
+
+    private void initTextures(MyGame game) {
         normal=game.assetManager.get("brick.png", Texture.class);
         green=game.assetManager.get("brickgreen.png", Texture.class);
         red=game.assetManager.get("brickred.png", Texture.class);
         image=new Image(normal);
-        image.setWidth(Gdx.graphics.getHeight()/12);
-        image.setHeight(Gdx.graphics.getHeight()/12);
-        addActor(image);
-        setSize(image.getWidth(),image.getHeight());
 
-        this.setOrigin(getWidth()/2,getHeight()/2);
-        setDebug(true);
-
-
-        //todo game brick
-
+        int w=Gdx.graphics.getWidth();
+        int h=Gdx.graphics.getHeight();
+        int lowestSize;
+        if(w>h)
+            lowestSize=h;
+        else
+            lowestSize=w;
+        image.setWidth(lowestSize/11);
+        image.setHeight(lowestSize/11);
     }
+
+    boolean isSelect=false;
     public void select(){
 
-        this.addAction(new SequenceAction(
-                Actions.scaleBy(0.04f, 0.04f, 0.08f),
-                Actions.scaleBy(-0.04f, -0.04f, 0.08f),
-                new Action() {
-                    @Override
-                    public boolean act(float delta) {
-                        image.setDrawable(new SpriteDrawable(new Sprite(green)));
-                        return true;
+        if (!isSelect) {
+            isSelect=true;
+            touchSound.play();
+            this.addAction(new SequenceAction(
+                    Actions.scaleBy(0.04f, 0.04f, 0.08f),
+                    Actions.scaleBy(-0.04f, -0.04f, 0.08f),
+                    new Action() {
+                        @Override
+                        public boolean act(float delta) {
+                            image.setDrawable(new SpriteDrawable(new Sprite(green)));
+                            return true;
+                        }
                     }
-                }
-        ));
+            ));
+            isSelect=true;
+        }
 
-        //todo music
     }
     public void unselect(){
         image.setDrawable(new SpriteDrawable(new Sprite(normal)));
+        isSelect=false;
     }
     public void wrongAnwer(){
         image.setDrawable(new SpriteDrawable(new Sprite(red)));

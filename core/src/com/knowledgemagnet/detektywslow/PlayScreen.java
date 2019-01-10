@@ -12,7 +12,7 @@ import com.knowledgemagnet.detektywslow.game_objects.Brick;
 
 public class PlayScreen extends AbstractScreen {
     Brick brick;
-
+    Board board;
     public PlayScreen(MyGame game) {
         super(game);
     }
@@ -22,10 +22,13 @@ public class PlayScreen extends AbstractScreen {
 
     @Override
     protected void init() {
-        brick=new Brick('c',game);
+        brick=new Brick('ę',game);
         brick.setPosition(100,100);
 
         stage.addActor(brick);
+        ILeverReader level=new MockLevelReader();
+        board=new Board(stage,game,level);
+        board.addBoardToStage();
 
         brick.addListener(new ClickListener(){
             @Override
