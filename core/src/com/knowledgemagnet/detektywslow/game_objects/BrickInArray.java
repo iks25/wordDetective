@@ -13,6 +13,8 @@ public class BrickInArray extends Brick {
     int xPosition,yPosition;
     private int marginLeft, marginBottom,gap;
 
+
+
     public BrickInArray(char letter, MyGame game, int xPosition, int yPosition) {
         super(letter, game);
         this.xPosition = xPosition;
@@ -46,6 +48,10 @@ public class BrickInArray extends Brick {
     @Override
     public int getyPosition() {
         return yPosition;
+    }
+
+    public int getGap() {
+        return gap;
     }
 
 }

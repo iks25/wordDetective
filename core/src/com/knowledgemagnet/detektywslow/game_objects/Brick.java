@@ -63,34 +63,44 @@ public class Brick extends Group{
             lowestSize=h;
         else
             lowestSize=w;
-        image.setWidth(lowestSize/11);
-        image.setHeight(lowestSize/11);
+        image.setWidth(lowestSize/9);
+        image.setHeight(lowestSize/9);
     }
 
     boolean isSelect=false;
-    public void select(){
+    public boolean select(){
 
         if (!isSelect) {
             isSelect=true;
             touchSound.play();
+            image.setDrawable(new SpriteDrawable(new Sprite(green)));
             this.addAction(new SequenceAction(
                     Actions.scaleBy(0.04f, 0.04f, 0.08f),
-                    Actions.scaleBy(-0.04f, -0.04f, 0.08f),
-                    new Action() {
-                        @Override
-                        public boolean act(float delta) {
-                            image.setDrawable(new SpriteDrawable(new Sprite(green)));
-                            return true;
-                        }
-                    }
+                    Actions.scaleBy(-0.04f, -0.04f, 0.08f)
             ));
-            isSelect=true;
+            return true;
         }
+        else
+            return false;
 
     }
     public void unselect(){
         image.setDrawable(new SpriteDrawable(new Sprite(normal)));
-        isSelect=false;
+        this.addAction(Actions.sequence(
+                Actions.scaleBy(-0.05f, -0.05f,0.03f),
+                Actions.scaleBy(0.05f,0.05f,.03f),
+                new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        image.setDrawable(new SpriteDrawable(new Sprite(normal)));
+                        isSelect=false;
+                        return true;
+                    }
+                }
+        ));
+
+
+
     }
     public void wrongAnwer(){
         image.setDrawable(new SpriteDrawable(new Sprite(red)));
@@ -120,6 +130,7 @@ public class Brick extends Group{
                      @Override
                      public boolean act(float delta) {
                          image.setDrawable(new SpriteDrawable(new Sprite(normal)));
+                         isSelect=false;
                          return true;
                      }
                  }

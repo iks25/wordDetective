@@ -12,10 +12,11 @@ public class MockLevelReader implements ILeverReader {
     @Override
     public char[][] getBoardLevel(int lvl) {
         char[][]board=new char[10][10];
+        char c1='1';
         for(int i=0;i<10;i++){
             for(int j=0;j<10;j++){
-                char c='T';
-                board[i][j]=c;
+                char c=c1++;
+                board[j][i]=c;
             }
         }        //return new char[0][];
         return board;
