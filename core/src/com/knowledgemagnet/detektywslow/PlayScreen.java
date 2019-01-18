@@ -25,11 +25,14 @@ public class PlayScreen extends AbstractScreen {
 
     @Override
     protected void init() {
-        brick=new Brick('ę',game);
+        ReadLVLFile lvlFile=new ReadLVLFile(1);
+        brick=new Brick('T',game);
         brick.setPosition(100,100);
 
         stage.addActor(brick);
-        ILeverReader level=new MockLevelReader();
+        //ILeverReader level=new MockLevelReader();
+
+        ILeverReader level=new ReadLVLFile(1);
         board=new Board(stage,game,level);
         board.addBoardToStage();
 

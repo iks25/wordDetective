@@ -14,11 +14,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
  */
 
 public abstract class AbstractScreen  implements Screen{
+
     protected MyGame game;
-
-
-
-
     protected Stage stage;
     private OrthographicCamera camera;
     protected SpriteBatch spriteBatch;

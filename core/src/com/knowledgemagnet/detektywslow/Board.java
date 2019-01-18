@@ -24,12 +24,12 @@ public class Board {
     BrickInArray[][] bricks;
     Stage stage;
     MyGame game;
-    int numberOfBriks=10;
+    int numberOfBriks=8;
     public Board(Stage stage, MyGame game,ILeverReader level) {
         this.stage=stage;
         this.game=game;
 
-        bricks=new BrickInArray[10][10];
+        bricks=new BrickInArray[numberOfBriks][numberOfBriks];
         //todo change on real levelReader
         tab=level.getBoardLevel(1);
 
@@ -44,7 +44,6 @@ Label up,down;
         up=new Label("up 0",labelStyle);
         down=new Label("down 0",labelStyle);
         up.setVisible(true);
-
         down.setY(Gdx.graphics.getHeight()-100);
         up.setY(Gdx.graphics.getHeight()-250);
 
@@ -52,25 +51,30 @@ Label up,down;
         stage.addActor(up);
         stage.addActor(down);
 
-        int margin=2;
-        for(int i=0;i<10;i++){
-            for(int j=0;j<10;j++){
+        for(int i=0;i<numberOfBriks;i++){
+            for(int j=0;j<numberOfBriks;j++){
+                if(tab[i][j]!='0'){
                 BrickInArray b=new BrickInArray(tab[i][j],game,i,j);
                 bricks[i][j]=b;
                 bricks[i][j].addListener(getListener(bricks[i][j]));
                 stage.addActor(bricks[i][j]);
+                }
+                else
+                bricks[i][j]=null;
             }
         }
-        bricks[5][9].addListener(getListener(bricks[5][9]));
     }
 
     private ClickListener getListener(final BrickInArray brick) {
         return new ClickListener(){
+            public int nrSelectedBrick;
             ArrayList<BrickInArray> selectedBricks=new ArrayList<BrickInArray>();
             int firstX,firstY;
             boolean isVertical;
             int distance;
             int nrBrickToSelect;
+            boolean previousOrientation;
+
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -120,6 +124,7 @@ Label up,down;
                 else{
                     nrBrickToSelect=distance/(int)(brick.getWidth()+brick.getGap());
                 }
+                orientationChanges(isVertical);
                 //todo dla coraz wiecej
                 if(isVertical){
                     selectVerticaly();
@@ -128,9 +133,45 @@ Label up,down;
                     selectHorizontally();
 
 
+                unselectBrick();
+
+                nrSelectedBrick=nrBrickToSelect;
 
                 up.setText("dragX = "+nrBrickToSelect);
                 super.touchDragged(event, x, y, pointer);
+            }
+
+            private void orientationChanges(boolean isVertical) {
+                if(previousOrientation!=isVertical){
+
+                    for(int i=selectedBricks.size();i>1;i--){
+                        BrickInArray brick=selectedBricks.get(i-1);
+                        brick.unselect();
+                        selectedBricks.remove(brick);
+                    }
+                }
+                previousOrientation=isVertical;
+
+            }
+
+            private void unselectBrick() {
+                if(selectedBricks.size()>1){
+                    if (nrSelectedBrick > 0 && nrBrickToSelect < nrSelectedBrick) {
+                        BrickInArray brick = selectedBricks.get(selectedBricks.size() - 1);
+                        brick.unselect();
+                        selectedBricks.remove(brick);
+                        nrSelectedBrick--;
+                        return;
+                    }
+                    if (nrSelectedBrick < 0 && nrBrickToSelect > nrSelectedBrick) {
+                        BrickInArray brick = selectedBricks.get(selectedBricks.size() - 1);
+                        brick.unselect();
+                        selectedBricks.remove(brick);
+                        nrSelectedBrick++;
+                        return;
+                    }
+                }
+
             }
 
             private void selectHorizontally() {

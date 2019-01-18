@@ -1,5 +1,6 @@
 package com.knowledgemagnet.detektywslow;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -59,12 +60,12 @@ class Loading implements Screen {
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter parms = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parms.fontFileName = path;    // path of .ttf file where that exist
-        parms.fontParameters.size=100;
+        parms.fontParameters.size= (int) (32*Gdx.graphics.getDensity());
         parms.fontParameters.borderColor= new Color(0,0,0,0.5f);
-        parms.fontParameters.borderWidth=6;
+        parms.fontParameters.borderWidth=(int)(2*Gdx.graphics.getDensity());
         parms.fontParameters.color=new Color(240f/255f,243f/255f,203f/255f,0.8f);
         manager.load(fileName, BitmapFont.class, parms);   // fileName with extension, sameName will use to get from manager
-
+        Gdx.app.log("density",Gdx.graphics.getDensity()+"   ->");
         manager.finishLoading();
     }
 
