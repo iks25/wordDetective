@@ -12,6 +12,7 @@ public class BrickInArray extends Brick {
 
     int xPosition,yPosition;
     private int marginLeft, marginBottom,gap;
+    Boolean isFake=false;
 
 
 
@@ -37,7 +38,7 @@ public class BrickInArray extends Brick {
         addAction(Actions.moveTo(
                 marginLeft+xPosition*(this.getWidth()+gap),
                 marginBottom+yPosition*(this.getWidth()+gap),
-                5f));
+                2f));
 
     }
     @Override
@@ -54,4 +55,10 @@ public class BrickInArray extends Brick {
         return gap;
     }
 
+    public void setIsFake(boolean isFake) {
+        this.isFake = isFake;
+    }
+    public Boolean isFakeBrick() {
+        return isFake;
+    }
 }

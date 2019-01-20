@@ -38,11 +38,22 @@ class Loading implements Screen {
     private void queueAssets() {
 
         //loadFont();
-
+        myGame.assetManager.load("brickbreak.txt", TextureAtlas.class);
         myGame.assetManager.load("brick.png", Texture.class);
         myGame.assetManager.load("brickgreen.png", Texture.class);
+        myGame.assetManager.load("shoot1.png", Texture.class);
+        myGame.assetManager.load("shoot2.png", Texture.class);
+        myGame.assetManager.load("light.png", Texture.class);
+        myGame.assetManager.load("lupa.png", Texture.class);
         myGame.assetManager.load("brickred.png", Texture.class);
         myGame.assetManager.load("sound/buttonTouch.mp3", Sound.class);
+        myGame.assetManager.load("sound/shootloading.mp3", Sound.class);
+        myGame.assetManager.load("sound/weapondeloading.mp3", Sound.class);
+        myGame.assetManager.load("sound/weponshoot.mp3", Sound.class);
+        myGame.assetManager.load("sound/goodshoot.mp3", Sound.class);
+        myGame.assetManager.load("sound/correctSound.mp3", Sound.class);
+        myGame.assetManager.load("sound/no.mp3", Sound.class);
+
         loadFont1();
 
 

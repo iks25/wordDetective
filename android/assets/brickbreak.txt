@@ -1,0 +1,33 @@
+brickbreak.png
+size: 1216, 300
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+break0
+  rotate: false
+  xy: 0, 0
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+break1
+  rotate: false
+  xy: 300, 0
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+break2
+  rotate: false
+  xy: 600, 0
+  size: 316, 300
+  orig: 316, 300
+  offset: 0, 0
+  index: -1
+break3
+  rotate: false
+  xy: 916, 0
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1

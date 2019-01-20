@@ -27,6 +27,8 @@ public class Brick extends Group{
     private Action action;
     private Texture normal,green,red;
     private Sound touchSound,wrongSound;
+    private BreakBrickAnimation animationBreak;
+    private Label letterLabel;
 
     public Brick(char letter,MyGame game) {
         super();
@@ -35,17 +37,18 @@ public class Brick extends Group{
         initTextures(game);
 
         setSize(image.getWidth(),image.getHeight());
-        setDebug(true);
         addActor(image);
+        addActor(animationBreak);
 
 
-        Label c=Letter.createLetter(letter,game);
-        addActor(c);
-        c.setX(this.getWidth()/2-c.getWidth()/2);
-        c.setY(this.getHeight()/2-c.getHeight()/2+3);
+        letterLabel=Letter.createLetter(letter,game);
+        addActor(letterLabel);
+        letterLabel.setX(this.getWidth()/2-letterLabel.getWidth()/2);
+        letterLabel.setY(this.getHeight()/2-letterLabel.getHeight()/2+3);
         this.setOrigin(getWidth()/2,getHeight()/2);
 
         touchSound=game.assetManager.get("sound/buttonTouch.mp3",Sound.class);
+
         //todo badSound
 
     }
@@ -56,6 +59,7 @@ public class Brick extends Group{
         red=game.assetManager.get("brickred.png", Texture.class);
         image=new Image(normal);
 
+        animationBreak=BreakBrickAnimation.createAnimation(game.assetManager);
         int w=Gdx.graphics.getWidth();
         int h=Gdx.graphics.getHeight();
         int lowestSize;
@@ -63,8 +67,13 @@ public class Brick extends Group{
             lowestSize=h;
         else
             lowestSize=w;
+
         image.setWidth(lowestSize/9);
         image.setHeight(lowestSize/9);
+        animationBreak.setWidth(lowestSize/9);
+        animationBreak.setHeight(lowestSize/9);
+        
+
     }
 
     boolean isSelect=false;
@@ -135,6 +144,14 @@ public class Brick extends Group{
                      }
                  }
          );
+    }
+
+    public void breakBrickAnimation(){
+
+        image.setVisible(false);
+        letterLabel.setVisible(false);
+        animationBreak.play();
+        //todo break animation
     }
 
 

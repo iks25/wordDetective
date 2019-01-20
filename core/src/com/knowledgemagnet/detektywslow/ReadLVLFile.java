@@ -68,16 +68,16 @@ public class ReadLVLFile implements ILeverReader{
 
     @Override
     public String getText() {
-        return null;
+        return text;
     }
 
     @Override
     public List<String> getWords() {
-        return null;
+        return words;
     }
 
     @Override
     public List<Character> getLettersToShootDown() {
-        return null;
+        return lettersToShoot;
     }
 }
