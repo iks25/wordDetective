@@ -33,13 +33,20 @@ public class BrickInArray extends Brick {
     }
 
     public void drop(){
-        //todo drop
         yPosition--;
         addAction(Actions.moveTo(
                 marginLeft+xPosition*(this.getWidth()+gap),
                 marginBottom+yPosition*(this.getWidth()+gap),
-                2f));
+                1.3f));
+    }
 
+    //when you neeed drop more then one column
+    public void drop(int dropSize) {
+        yPosition=yPosition-dropSize;
+        addAction(Actions.moveTo(
+                marginLeft+xPosition*(this.getWidth()+gap),
+                marginBottom+yPosition*(this.getWidth()+gap),
+                1.7f));
     }
     @Override
     public int getxPosition() {
@@ -61,4 +68,6 @@ public class BrickInArray extends Brick {
     public Boolean isFakeBrick() {
         return isFake;
     }
+
+
 }

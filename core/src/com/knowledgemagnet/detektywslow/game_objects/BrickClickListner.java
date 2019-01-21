@@ -25,7 +25,6 @@ public class BrickClickListner {
         corectTextSound=board.getGame().assetManager.get("sound/goodshoot.mp3",Sound.class);
         //missShootSound=board.getGame().assetManager.get("sound/weponshoot.mp3",Sound.class);
         shootSound.setVolume(1,0.5f);
-        //todo sounds
     };
 
     public ClickListener getListener(final BrickInArray brick) {
@@ -42,13 +41,11 @@ public class BrickClickListner {
             public void clicked(InputEvent event, float x, float y) {
                 if(board.shootingMode==true){
                     if(brick.isFakeBrick()){
-                        //todo shoot
                         //shootSound.play();
                         corectTextSound.play();
                         board.shootingModeEnd();
                         brick.breakBrickAnimation();
                         board.moveDownBricks(brick.xPosition,brick.yPosition);
-                        //todo zmien method
                     }else {
                         //   missShootSound.play();
                         shootSound.play();
@@ -77,11 +74,10 @@ public class BrickClickListner {
                 String selectedWord="";
                 for(BrickInArray b:selectedBricks){
                     selectedWord=selectedWord+b.getLetter();
-                    b.unselect();
+                   // b.unselect();
                 }
-
-                //todo down konczy sie po up
-                selectedBricks.clear();
+                    board.cheakWord(selectedBricks,selectedWord,isVertical);
+                    selectedBricks.clear();
                 }
                 super.touchUp(event, x, y, pointer, button);
             }
@@ -106,7 +102,6 @@ public class BrickClickListner {
                         nrBrickToSelect = distance / (int) (brick.getWidth() + brick.getGap());
                     }
                     orientationChanges(isVertical);
-                    //todo dla coraz wiecej
                     if (isVertical) {
                         selectVerticaly();
                     } else
@@ -169,7 +164,7 @@ public class BrickClickListner {
                             };
                         }
                     }
-                }else{ 
+                }else{
                     for(int i=0;i>nrBrickToSelect;i--){
                         if((brick.getxPosition()+nrBrickToSelect)<0||
                                 board.bricks[i+brick.getxPosition()-1][brick.getyPosition()]==null){

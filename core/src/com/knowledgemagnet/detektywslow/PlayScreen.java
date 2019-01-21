@@ -22,9 +22,6 @@ public class PlayScreen extends AbstractScreen {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
-    private TextureAtlas textureAtlas;
-    private Animation animation;
-    BreakBrickAnimation animactor;
 
 
 
@@ -36,29 +33,6 @@ public class PlayScreen extends AbstractScreen {
         board=new Board(stage,game,level);
         board.addBoardToStage();
         board.addButtonsToStage();
-
-
-        textureAtlas = new TextureAtlas(Gdx.files.internal("brickbreak.txt"));
-        animation = new Animation(1f/8f, textureAtlas.getRegions());
-
-        animactor= BreakBrickAnimation.createAnimation(game.assetManager);
-        animactor.setPosition(200,0);
-        stage.addActor(animactor);
-
-        Button button=new Button(new Button.ButtonStyle());
-        button.setWidth(50);
-        button.setHeight(50);
-        button.setPosition(300,0);
-        button.setDebug(true);
-
-        stage.addActor(button);
-        button.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                animactor.play();
-            }
-        });
 
     }
 

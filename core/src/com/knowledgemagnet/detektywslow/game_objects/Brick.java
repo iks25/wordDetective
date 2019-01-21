@@ -26,7 +26,7 @@ public class Brick extends Group{
     MyGame game;
     private Action action;
     private Texture normal,green,red;
-    private Sound touchSound,wrongSound;
+    private Sound touchSound;
     private BreakBrickAnimation animationBreak;
     private Label letterLabel;
 
@@ -46,11 +46,7 @@ public class Brick extends Group{
         letterLabel.setX(this.getWidth()/2-letterLabel.getWidth()/2);
         letterLabel.setY(this.getHeight()/2-letterLabel.getHeight()/2+3);
         this.setOrigin(getWidth()/2,getHeight()/2);
-
         touchSound=game.assetManager.get("sound/buttonTouch.mp3",Sound.class);
-
-        //todo badSound
-
     }
 
     private void initTextures(MyGame game) {
@@ -116,7 +112,6 @@ public class Brick extends Group{
         Action action1= getSequenceShake();
         Action action2= getSequenceAction2();
         this.addAction(new ParallelAction(action1,action2));
-        //todo add sound
     }
 
     private SequenceAction getSequenceShake() {
@@ -151,7 +146,6 @@ public class Brick extends Group{
         image.setVisible(false);
         letterLabel.setVisible(false);
         animationBreak.play();
-        //todo break animation
     }
 
 

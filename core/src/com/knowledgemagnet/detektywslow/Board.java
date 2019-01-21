@@ -1,6 +1,7 @@
 package com.knowledgemagnet.detektywslow;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -32,79 +33,84 @@ public class Board {
     MyGame game;
     ButtonShoot buttonShoot;
     public boolean shootingMode;
-    public int numberOfBriks=8;
-    public Board(Stage stage, MyGame game,ILeverReader level) {
-        this.stage=stage;
-        this.game=game;
+    public int numberOfBriks = 8;
+    Sound soundBadAnswer,soundGoodAnswer;
 
-        bricks=new BrickInArray[numberOfBriks][numberOfBriks];
-        lettersToShoot=level.getLettersToShootDown();
+    public Board(Stage stage, MyGame game, ILeverReader level) {
+        this.stage = stage;
+        this.game = game;
+
+        bricks = new BrickInArray[numberOfBriks][numberOfBriks];
+        lettersToShoot = level.getLettersToShootDown();
         //todo change on real levelReader
-        tab=level.getBoardLevel(1);
+        tab = level.getBoardLevel(1);
+        soundBadAnswer=game.assetManager.get("sound/no.mp3",Sound.class);
+        soundGoodAnswer=game.assetManager.get("sound/correctSound.mp3", Sound.class);
+
 
     }
-Label up,down;
+
+    Label up, down;
 
 
-
-    public void addBoardToStage(){
+    public void addBoardToStage() {
 
         BitmapFont bitmapFont;
-        bitmapFont=game.assetManager.get("font1.ttf",BitmapFont.class);
-        Label.LabelStyle labelStyle=new Label.LabelStyle();
-        labelStyle.font=bitmapFont;
-        up=new Label("up 0",labelStyle);
-        down=new Label("down 0",labelStyle);
+        bitmapFont = game.assetManager.get("font1.ttf", BitmapFont.class);
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = bitmapFont;
+        up = new Label("up 0", labelStyle);
+        down = new Label("down 0", labelStyle);
         up.setVisible(true);
-        down.setY(Gdx.graphics.getHeight()-100);
-        up.setY(Gdx.graphics.getHeight()-250);
+        down.setY(Gdx.graphics.getHeight() - 100);
+        up.setY(Gdx.graphics.getHeight() - 250);
 
 
         stage.addActor(up);
         stage.addActor(down);
-        
+
         //todo add labels
 
-        for(int i=0;i<numberOfBriks;i++){
-            for(int j=0;j<numberOfBriks;j++){
-                if(tab[i][j]!='0'){
-                    BrickInArray b=null;
-                    if(tab[i][j]=='?') {
-                        if(!lettersToShoot.isEmpty()){
-                         b = new BrickInArray(lettersToShoot.get(lettersToShoot.size()-1), game, i, j);
+        for (int i = 0; i < numberOfBriks; i++) {
+            for (int j = 0; j < numberOfBriks; j++) {
+                if (tab[i][j] != '0') {
+                    BrickInArray b = null;
+                    if (tab[i][j] == '?') {
+                        if (!lettersToShoot.isEmpty()) {
+                            b = new BrickInArray(lettersToShoot.get(lettersToShoot.size() - 1), game, i, j);
 
-                         lettersToShoot.remove(lettersToShoot.size()-1);
-                        }
-                        else{//error reading
+                            lettersToShoot.remove(lettersToShoot.size() - 1);
+                        } else {//error reading
 
                             b = new BrickInArray('+', game, i, j);
-                            lettersToShoot.remove(lettersToShoot.size()-1);
+                            lettersToShoot.remove(lettersToShoot.size() - 1);
                         }
                         b.setIsFake(true);
-                    }else {
-                         b = new BrickInArray(tab[i][j], game, i, j);
+                    } else {
+                        b = new BrickInArray(tab[i][j], game, i, j);
                     }
-                bricks[i][j]=b;
-                
-                BrickClickListner brickClickListner = new BrickClickListner(this);
-                bricks[i][j].addListener(brickClickListner.getListener(bricks[i][j]));
-                stage.addActor(bricks[i][j]);
-                }
-                else
-                bricks[i][j]=null;
+                    bricks[i][j] = b;
+
+                    BrickClickListner brickClickListner = new BrickClickListner(this);
+                    bricks[i][j].addListener(brickClickListner.getListener(bricks[i][j]));
+                    stage.addActor(bricks[i][j]);
+                } else
+                    bricks[i][j] = null;
             }
         }
 
 
     }
-    public void addButtonsToStage(){
-        buttonShoot=ButtonShoot.createButtonShoot(this);
+
+    public void addButtonsToStage() {
+        buttonShoot = ButtonShoot.createButtonShoot(this);
         stage.addActor(buttonShoot);
-        ButtonLight buttonLight=ButtonLight.createButtonLigh(this);
+        ButtonLight buttonLight = ButtonLight.createButtonLigh(this);
         stage.addActor(buttonLight);
-        ButtonFind buttonFind=ButtonFind.createButtonShoot(this);
+        ButtonFind buttonFind = ButtonFind.createButtonShoot(this);
         stage.addActor(buttonFind);
     }
+
     public MyGame getGame() {
         return game;
     }
@@ -112,194 +118,87 @@ Label up,down;
     public void shootingModeEnd() {
         buttonShoot.finishShootingMode();
         buttonShoot.decriseNrOfShooting();
-        //todo shooti
     }
 
     public void moveDownBricks(int x, int y) {
 
-        for(int i=y;i<numberOfBriks-1;i++){
-            if(bricks[x][i+1]!=null){
-                bricks[x][i]=bricks[x][i+1];
-                bricks[x][i+1].drop();
+        for (int i = y; i < numberOfBriks - 1; i++) {
+            if (bricks[x][i + 1] != null) {
+                bricks[x][i] = bricks[x][i + 1];
+                bricks[x][i + 1].drop();
+            }
+            else{
+                bricks[x][i]=null;
             }
         }
     }
 
-//    private ClickListener getListener(final BrickInArray brick) {
-//        return new ClickListener(){
-//            public int nrSelectedBrick;
-//            ArrayList<BrickInArray> selectedBricks=new ArrayList<BrickInArray>();
-//            int firstX,firstY;
-//            boolean isVertical;
-//            int distance;
-//            int nrBrickToSelect;
-//            boolean previousOrientation;
-//
-//
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                brick.select();
-//                firstX=(int)brick.getWidth()/2;
-//                firstY=(int)brick.getWidth()/2;
-//                down.setText("x "+ firstX +"    y "+y);
-//                selectedBricks.add(brick);
-//
-//               Gdx.app.debug("to","helo");
-//                return super.touchDown(event, x, y, pointer, button);
-//            }
-//
-//            @Override
-//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//
-//                String selectedWord="";
-//                for(BrickInArray b:selectedBricks){
-//                    selectedWord=selectedWord+b.getLetter();
-//                    b.unselect();
-//                }
-//
-//                up.setText("sw = "+selectedWord);
-//                //todo down konczy sie po up
-//                selectedBricks.clear();
-//                super.touchUp(event, x, y, pointer, button);
-//            }
-//
-//
-//
-//            @Override
-//            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-//
-//
-//                if(Math.abs(x)>Math.abs(y)){
-//                    isVertical=false;
-//                    distance=(int)x;
-//                }
-//                else {
-//                    isVertical=true;
-//                    distance = (int) y;
-//                }
-//                if(distance<brick.getGap()){
-//                    nrBrickToSelect=distance/(int)(brick.getWidth()+brick.getGap());
-//                    nrBrickToSelect--;
-//                }
-//                else{
-//                    nrBrickToSelect=distance/(int)(brick.getWidth()+brick.getGap());
-//                }
-//                orientationChanges(isVertical);
-//                //todo dla coraz wiecej
-//                if(isVertical){
-//                    selectVerticaly();
-//                }
-//                else
-//                    selectHorizontally();
-//
-//
-//                unselectBrick();
-//
-//                nrSelectedBrick=nrBrickToSelect;
-//
-//                up.setText("dragX = "+nrBrickToSelect);
-//                super.touchDragged(event, x, y, pointer);
-//            }
-//
-//            private void orientationChanges(boolean isVertical) {
-//                if(previousOrientation!=isVertical){
-//
-//                    for(int i=selectedBricks.size();i>1;i--){
-//                        BrickInArray brick=selectedBricks.get(i-1);
-//                        brick.unselect();
-//                        selectedBricks.remove(brick);
-//                    }
-//                }
-//                previousOrientation=isVertical;
-//
-//            }
-//
-//            private void unselectBrick() {
-//                if(selectedBricks.size()>1){
-//                    if (nrSelectedBrick > 0 && nrBrickToSelect < nrSelectedBrick) {
-//                        BrickInArray brick = selectedBricks.get(selectedBricks.size() - 1);
-//                        brick.unselect();
-//                        selectedBricks.remove(brick);
-//                        nrSelectedBrick--;
-//                        return;
-//                    }
-//                    if (nrSelectedBrick < 0 && nrBrickToSelect > nrSelectedBrick) {
-//                        BrickInArray brick = selectedBricks.get(selectedBricks.size() - 1);
-//                        brick.unselect();
-//                        selectedBricks.remove(brick);
-//                        nrSelectedBrick++;
-//                        return;
-//                    }
-//                }
-//
-//            }
-//
-//            private void selectHorizontally() {
-//
-//                if(nrBrickToSelect>0){
-//                    for(int i=0;i<nrBrickToSelect;i++){
-//
-////                                bricks[brick.getxPosition()][i+brick.getyPosition()]==null){
-////                            break;
-//                        if(nrBrickToSelect+brick.getxPosition()>=numberOfBriks||
-//                                bricks[i+brick.getxPosition()][brick.getyPosition()]==null){
-//                            break;
-//                        }
-//                        else {
-//                           // if(bricks[brick.getxPosition()][i+brick.getyPosition()+1].select()){
-//                            if(bricks[i+brick.getxPosition()+1][brick.getyPosition()].select()){
-//                              //selectedBricks.add(bricks[brick.getxPosition()][i+brick.getyPosition()+1]);
-//                                selectedBricks.add(bricks[i+brick.getxPosition()+1][brick.getyPosition()]);
-//                            };
-//                        }
-//                    }
-//                }else{ //nrBrickToSelect<0
-//                    for(int i=0;i>nrBrickToSelect;i--){
-//                        if((brick.getxPosition()+nrBrickToSelect)<0||
-//                          //    bricks[brick.getxPosition()][i+brick.getyPosition()]==null){
-//                                bricks[i+brick.getxPosition()][brick.getyPosition()]==null){
-//                            break;
-//                        }
-//                        else {
-//                       //   if(bricks[brick.getxPosition()][i+brick.getyPosition()-1].select()){
-//                            if(bricks[i+brick.getxPosition()-1][brick.getyPosition()].select()){
-//                           //   selectedBricks.add(bricks[brick.getxPosition()][i+brick.getyPosition()-1]);
-//                                selectedBricks.add(bricks[i+brick.getxPosition()-1][brick.getyPosition()]);
-//                            };
-//                        }
-//                    }
-//                }
-//            }
-//
-//            private void selectVerticaly() {
-//                if(nrBrickToSelect>0){
-//                    for(int i=0;i<nrBrickToSelect;i++){
-//                        if(nrBrickToSelect+brick.getyPosition()>=numberOfBriks||
-//                        bricks[brick.getxPosition()][i+brick.getyPosition()]==null){
-//                            break;
-//                        }
-//                        else {
-//                            if(bricks[brick.getxPosition()][i+brick.getyPosition()+1].select()){
-//                                selectedBricks.add(bricks[brick.getxPosition()][i+brick.getyPosition()+1]);
-//                            };
-//                        }
-//                    }
-//                }else{ //nrBrickToSelect<0
-//                    for(int i=0;i>nrBrickToSelect;i--){
-//                        if((brick.getyPosition()+nrBrickToSelect)<0||
-//                                bricks[brick.getxPosition()][i+brick.getyPosition()]==null){
-//                            break;
-//                        }
-//                        else {
-//                            if(bricks[brick.getxPosition()][i+brick.getyPosition()-1].select()){
-//                                selectedBricks.add(bricks[brick.getxPosition()][i+brick.getyPosition()-1]);
-//                            };
-//                        }
-//                    }
-//                }
-//            }
-//        };
-//    }
+    public void cheakWord(ArrayList<BrickInArray> selectedBricks, String word, boolean isVertical) {
 
-    ;
+        if (isCorrectWord(word)) {
+            soundGoodAnswer.play();
+            for (BrickInArray b : selectedBricks) {
+                //todo some efect b.wrongAnwer();
+               // b.setVisible(false);
+            }
+            Gdx.app.log("is","isVertical   "+isVertical);
+           if(!isVertical){
+            for (BrickInArray brickInArray : selectedBricks) {
+                brickInArray.setVisible(false);
+                int x=brickInArray.getxPosition();
+                int y=brickInArray.getyPosition();
+                moveDownBricks(x,y);
+            }
+           }else{
+               dropVerticalSelectedBriks(selectedBricks);
+           }
+
+           //todo chceck is it end
+        } else {
+            soundBadAnswer.play();
+            for (BrickInArray b : selectedBricks) {
+                b.wrongAnwer();
+            }
+        }
+
+
+    }
+
+    private void dropVerticalSelectedBriks(ArrayList<BrickInArray> selectedBricks) {
+        int dropSize=selectedBricks.size();
+        int highestPositionY;
+        int lowestPositionY;
+        int yfirst=selectedBricks.get(0).getyPosition();
+        int ylast=selectedBricks.get(selectedBricks.size()-1).getyPosition();
+        int x=selectedBricks.get(0).getxPosition();
+
+        if(yfirst>ylast){
+            highestPositionY=yfirst;
+             lowestPositionY = ylast;
+        }
+        else {
+            highestPositionY = ylast;
+            lowestPositionY=yfirst;
+        }
+
+        for(int j=0; j<dropSize;j++){
+            bricks[x][lowestPositionY+j].setVisible(false);
+            bricks[x][lowestPositionY+j]=null;
+        }
+        for (int i = highestPositionY; i < numberOfBriks - 1; i++) {
+            if (bricks[x][i + 1] != null) {
+                bricks[x][i-dropSize+1] = bricks[x][i + 1];
+                bricks[x][i + 1].drop(dropSize);
+            }
+            else{
+                bricks[x][i-dropSize+1] = null;
+            }
+        }
+    }
+
+    private boolean isCorrectWord(String word) {
+        return true;
+        //todo iscorrectWord
+
+    }
 }

@@ -1,6 +1,6 @@
 package com.knowledgemagnet.detektywslow;
 
-import com.badlogic.gdx.Application;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -76,7 +76,6 @@ class Loading implements Screen {
         parms.fontParameters.borderWidth=(int)(2*Gdx.graphics.getDensity());
         parms.fontParameters.color=new Color(240f/255f,243f/255f,203f/255f,0.8f);
         manager.load(fileName, BitmapFont.class, parms);   // fileName with extension, sameName will use to get from manager
-        Gdx.app.log("density",Gdx.graphics.getDensity()+"   ->");
         manager.finishLoading();
     }
 

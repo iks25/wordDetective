@@ -72,7 +72,6 @@ public class ButtonShoot extends HelpingButton {
         int nr=getNrFromDataBase();
         Texture texture=board.getGame().assetManager.get("shoot1.png", Texture.class);
         ButtonShoot button=new ButtonShoot(nr, texture, board.getGame(),board);
-        //todo
         return button;
     };
 
