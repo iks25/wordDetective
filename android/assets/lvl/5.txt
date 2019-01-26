@@ -1,0 +1,13 @@
+0;0;0;0;0;0;0;0
+0;0;0;0;0;I;0;0
+0;0;A;K;W;I;0;0
+0;A;Z;S;O;?;0;0
+P;?;J;A;Y;K;L;0
+I;K;C;U;L;E;P;O
+0;H;K;Y;C;O;K;Œ
+A;W;Ó;Z;E;K;I;P
+
+dla bobasa:
+
+PIELUCHA;WÓZEK;KOCYK,ŒPIOSZKI;PAJACYK;OLIWKA
+D;U

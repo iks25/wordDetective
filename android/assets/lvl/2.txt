@@ -1,0 +1,13 @@
+0;0;0;0;0;0;0;0
+0;0;0;0;0;A;0;0
+0;0;0;0;0;N;0;0
+0;0;0;0;0;O;0;0
+?;C;O;W;0;T;0;0
+E;O;D;Y;O;A;0;0
+L;?;O;T;S;B;I;C
+C;U;K;I;E;R;E;K
+
+coœ s³odkiego:
+
+BATON;CIASTO;CUKIEREK;LODY;OWOCE
+I;P

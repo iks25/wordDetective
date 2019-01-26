@@ -3,12 +3,9 @@ package com.knowledgemagnet.detektywslow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.knowledgemagnet.detektywslow.game_objects.Brick;
 import com.knowledgemagnet.detektywslow.game_objects.BrickClickListner;
 import com.knowledgemagnet.detektywslow.game_objects.BrickInArray;
 import com.knowledgemagnet.detektywslow.game_objects.buttons.ButtonFind;
@@ -18,18 +15,16 @@ import com.knowledgemagnet.detektywslow.game_objects.buttons.ButtonShoot;
 import java.util.ArrayList;
 import java.util.List;
 
-import sun.rmi.runtime.Log;
-
 
 /**
  * Created by Igor on 09.01.2019.
  */
 
-public class Board {
+public class Board implements IHelpulInformation{
     char tab[][];
     List<Character> lettersToShoot;
     public BrickInArray[][] bricks;
-    Stage stage;
+    public Stage stage;
     MyGame game;
     ButtonShoot buttonShoot;
     public boolean shootingMode;
@@ -127,31 +122,16 @@ public class Board {
                 bricks[x][i] = bricks[x][i + 1];
                 bricks[x][i + 1].drop();
             }
-            else{
-                bricks[x][i]=null;
-            }
+
+                bricks[x][y]=null;
+
         }
     }
 
     public void cheakWord(ArrayList<BrickInArray> selectedBricks, String word, boolean isVertical) {
 
         if (isCorrectWord(word)) {
-            soundGoodAnswer.play();
-            for (BrickInArray b : selectedBricks) {
-                //todo some efect b.wrongAnwer();
-               // b.setVisible(false);
-            }
-            Gdx.app.log("is","isVertical   "+isVertical);
-           if(!isVertical){
-            for (BrickInArray brickInArray : selectedBricks) {
-                brickInArray.setVisible(false);
-                int x=brickInArray.getxPosition();
-                int y=brickInArray.getyPosition();
-                moveDownBricks(x,y);
-            }
-           }else{
-               dropVerticalSelectedBriks(selectedBricks);
-           }
+            correctAnswerEffect(selectedBricks, isVertical);
 
            //todo chceck is it end
         } else {
@@ -162,6 +142,27 @@ public class Board {
         }
 
 
+    }
+
+    private void correctAnswerEffect(ArrayList<BrickInArray> selectedBricks, boolean isVertical) {
+        soundGoodAnswer.play();
+        for (BrickInArray b : selectedBricks) {
+            //todo some efect b.wrongAnwer();
+            b.clicable=false;
+            //b.goodAnswerAnimation();
+            b.setVisible(false);
+        }
+        Gdx.app.log("is","isVertical   "+isVertical);
+        if(!isVertical){
+         for (BrickInArray brickInArray : selectedBricks) {
+             brickInArray.goodAnswerAnimation();
+             int x=brickInArray.getxPosition();
+             int y=brickInArray.getyPosition();
+             moveDownBricks(x,y);
+         }
+        }else{
+            dropVerticalSelectedBriks(selectedBricks);
+        }
     }
 
     private void dropVerticalSelectedBriks(ArrayList<BrickInArray> selectedBricks) {
@@ -200,5 +201,20 @@ public class Board {
         return true;
         //todo iscorrectWord
 
+    }
+
+    @Override
+    public List<Vector2> getFakeBrickPositions() {
+        return null;
+    }
+
+    @Override
+    public BrickInArray[][] getBricksArray() {
+        return bricks;
+    }
+
+    @Override
+    public List<String> getNotDiscoverWords() {
+        return null;
     }
 }

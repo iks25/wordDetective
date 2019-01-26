@@ -45,6 +45,7 @@ class Loading implements Screen {
         myGame.assetManager.load("shoot2.png", Texture.class);
         myGame.assetManager.load("light.png", Texture.class);
         myGame.assetManager.load("lupa.png", Texture.class);
+        myGame.assetManager.load("viewfinder.png", Texture.class);
         myGame.assetManager.load("brickred.png", Texture.class);
         myGame.assetManager.load("sound/buttonTouch.mp3", Sound.class);
         myGame.assetManager.load("sound/shootloading.mp3", Sound.class);

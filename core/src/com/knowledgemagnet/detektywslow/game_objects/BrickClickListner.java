@@ -19,6 +19,7 @@ public class BrickClickListner {
     private final Board board;
     Sound corectTextSound, missShootSound, shootSound;
 
+
     public BrickClickListner(Board board){
         this.board=board;
         shootSound=board.getGame().assetManager.get("sound/weponshoot.mp3",Sound.class);
@@ -39,13 +40,15 @@ public class BrickClickListner {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(board.shootingMode==true){
+                if(board.shootingMode==true&&brick.clicable==true){
                     if(brick.isFakeBrick()){
-                        //shootSound.play();
+                        brick.clicable=false;
+                        brick.isFake=false;
                         corectTextSound.play();
                         board.shootingModeEnd();
                         brick.breakBrickAnimation();
                         board.moveDownBricks(brick.xPosition,brick.yPosition);
+
                     }else {
                         //   missShootSound.play();
                         shootSound.play();
@@ -58,7 +61,7 @@ public class BrickClickListner {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-               if(board.shootingMode==false){
+               if(board.shootingMode==false && brick.clicable==true){
                 brick.select();
                 firstX=(int)brick.getWidth()/2;
                 firstY=(int)brick.getWidth()/2;
@@ -70,7 +73,7 @@ public class BrickClickListner {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if(board.shootingMode==false){
+                if(board.shootingMode==false&& brick.clicable==true){
                 String selectedWord="";
                 for(BrickInArray b:selectedBricks){
                     selectedWord=selectedWord+b.getLetter();
@@ -87,7 +90,7 @@ public class BrickClickListner {
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
 
-                if(board.shootingMode==false) {
+                if(board.shootingMode==false&& brick.clicable==true) {
                     if (Math.abs(x) > Math.abs(y)) {
                         isVertical = false;
                         distance = (int) x;

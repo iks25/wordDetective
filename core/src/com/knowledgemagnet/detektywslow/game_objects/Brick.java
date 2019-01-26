@@ -3,6 +3,7 @@ package com.knowledgemagnet.detektywslow.game_objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.knowledgemagnet.detektywslow.MyGame;
 
@@ -29,6 +31,7 @@ public class Brick extends Group{
     private Sound touchSound;
     private BreakBrickAnimation animationBreak;
     private Label letterLabel;
+    public boolean clicable=true;
 
     public Brick(char letter,MyGame game) {
         super();
@@ -146,6 +149,7 @@ public class Brick extends Group{
         image.setVisible(false);
         letterLabel.setVisible(false);
         animationBreak.play();
+
     }
 
 
@@ -161,4 +165,27 @@ public class Brick extends Group{
     public char getLetter() {
         return letter;
     }
+
+    public void goodAnswerAnimation() {
+        clicable=false;
+        image.setDrawable(new SpriteDrawable(new Sprite(normal)));
+        Action animationGood= new SequenceAction(
+                Actions.scaleBy(0.07f, 0.07f, 0.08f),
+                Actions.moveBy(0, 10f, 03f),
+                Actions.delay(0.1f),
+
+                new Action() {
+                    @Override
+                    public boolean act(float delta) {
+                        invisible();
+                        return false;
+                    }
+                }
+        );
+    }
+
+    private void invisible() {
+        this.setVisible(false);
+    }
+
 }

@@ -53,6 +53,7 @@ public abstract class AbstractScreen  implements Screen{
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
+    //todo można strzelac w nieistniejacego brica
     @Override
     public void show() {
 
