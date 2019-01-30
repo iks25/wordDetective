@@ -110,11 +110,14 @@ public class BrickClickListner {
                     } else
                         selectHorizontally();
 
-
+                    drawSelectedWord();
+                    drawSelectedWord2(brick.getxPosition(),brick.getyPosition());
                     unselectBrick();
 
                     nrSelectedBrick = nrBrickToSelect;
+
                 }
+
                 super.touchDragged(event, x, y, pointer);
             }
 
@@ -208,8 +211,28 @@ public class BrickClickListner {
                         }
                     }
                 }
+
+            }
+            private void drawSelectedWord(){
+                String selectetWord="";
+                for(BrickInArray brickInArray:selectedBricks)
+                    selectetWord=selectetWord+brickInArray.getLetter();
+                    board.selectedWordLabel.setText(selectetWord);
+            }
+            private void drawSelectedWord2(float x, float y) {
+
+                String selectetWord=x+" "+y+"  ";
+                for(BrickInArray brickInArray:selectedBricks)
+                    selectetWord=selectetWord+brickInArray.getLetter();
+                board.selectedWordLabel.setText(selectetWord);
             }
         };
+
+
     }
+
+
+
+
 
 }

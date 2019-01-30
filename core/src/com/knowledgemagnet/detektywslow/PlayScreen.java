@@ -2,14 +2,12 @@ package com.knowledgemagnet.detektywslow;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.knowledgemagnet.detektywslow.game_objects.BreakBrickAnimation;
 import com.knowledgemagnet.detektywslow.game_objects.Brick;
+import com.knowledgemagnet.detektywslow.screens.YouWonWindow;
 
 /**
  * Created by Igor on 07.01.2019.
@@ -19,19 +17,26 @@ public class PlayScreen extends AbstractScreen {
     Brick brick;
     ParticleEffect particleEffect;
     Board board;
+    YouWonWindow wonWindow;
+
+
     public PlayScreen(MyGame game) {
-        super(game);
+        super(game,1);
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
+    }
+    public PlayScreen(MyGame game,int lvlNumber) {
+        super(game, lvlNumber);
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
     }
 
 
 
-
     @Override
-    protected void init() {
-        ReadLVLFile lvlFile=new ReadLVLFile(1);
+    protected void init(int lvlNumber) {
 
-        ILeverReader level=new ReadLVLFile(1);
+        ReadLVLFile lvlFile=new ReadLVLFile(this.lvlNumber);
+        ILeverReader level=new ReadLVLFile(this.lvlNumber);
         board=new Board(stage,game,level);
         board.addBoardToStage();
         board.addButtonsToStage();
@@ -51,9 +56,16 @@ public class PlayScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 particleEffect.start();
+                youWon();
                 super.clicked(event, x, y);
             }
         });
+
+          wonWindow=new YouWonWindow(this);
+          stage.addActor(wonWindow);
+          wonWindow.setPosition(Gdx.graphics.getWidth()/2-wonWindow.getWidth()/2,
+                  Gdx.graphics.getHeight()*5/6-wonWindow.getHeight());
+
 
     }
 
@@ -70,8 +82,15 @@ public class PlayScreen extends AbstractScreen {
         spriteBatch.end();
 
     }
-
+    public int getLvlNumber() {
+        return lvlNumber;
+    }
     private void update() {
 
     }
+
+    private void youWon() {
+        wonWindow.setVisible(true);
+    }
+
 }

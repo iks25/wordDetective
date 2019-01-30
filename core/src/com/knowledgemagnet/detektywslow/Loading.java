@@ -54,6 +54,10 @@ class Loading implements Screen {
         myGame.assetManager.load("sound/goodshoot.mp3", Sound.class);
         myGame.assetManager.load("sound/correctSound.mp3", Sound.class);
         myGame.assetManager.load("sound/no.mp3", Sound.class);
+        myGame.assetManager.load("menu.png", Texture.class);
+        myGame.assetManager.load("nextlevel.png", Texture.class);
+        myGame.assetManager.load("youWin.png", Texture.class);
+
 
         loadFont1();
 

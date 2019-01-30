@@ -15,25 +15,26 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public abstract class AbstractScreen  implements Screen{
 
-    protected MyGame game;
+    public MyGame game;
     protected Stage stage;
     private OrthographicCamera camera;
     protected SpriteBatch spriteBatch;
     protected ShapeRenderer shapeRenderer;
+    public int lvlNumber;
 
 
-
-    public AbstractScreen(MyGame game){
+    public AbstractScreen(MyGame game,int lvlNumber){
         this.game = game;
         createCamera();
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         spriteBatch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
         shapeRenderer=new ShapeRenderer();
-        init();
+        this.lvlNumber=lvlNumber;
+        init(lvlNumber);
     }
 
-    protected abstract void init();
+    protected abstract void init(int lvlNumber);
 
     private void createCamera() {
         camera = new OrthographicCamera();

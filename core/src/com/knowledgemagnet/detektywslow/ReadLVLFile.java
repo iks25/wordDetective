@@ -27,7 +27,7 @@ public class ReadLVLFile implements ILeverReader{
     }
 
     private void createBoardfromFile(String fileString) {
-        //libgdx is draw from down to up; file text is save from up to down
+        //libgdx is draw from down to selectedWordLabel; file text is save from selectedWordLabel to down
         board=new char[8][8];
         String[] splitedFile=null;
         splitedFile=fileString.split("\n");

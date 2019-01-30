@@ -1,5 +1,6 @@
 package com.knowledgemagnet.detektywslow.game_objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.knowledgemagnet.detektywslow.MyGame;
@@ -40,13 +41,21 @@ public class BrickInArray extends Brick {
                 1.3f));
     }
 
+    int lastDrop=0;
     //when you neeed drop more then one column
     public void drop(int dropSize) {
+        int yyy=yPosition;
         yPosition=yPosition-dropSize;
+        if(yPosition<0){
+            Gdx.app.log("error",
+                    yyy+"     "+yPosition+"  "
+                            +dropSize+"  last drop "+lastDrop);
+        }
         addAction(Actions.moveTo(
                 marginLeft+xPosition*(this.getWidth()+gap),
-                marginBottom+yPosition*(this.getWidth()+gap),
+                marginBottom+yPosition*(this.getHeight()+gap),
                 1.7f));
+    lastDrop=dropSize;
     }
     @Override
     public int getxPosition() {

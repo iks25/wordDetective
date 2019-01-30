@@ -30,6 +30,9 @@ public class Board implements IHelpulInformation{
     public boolean shootingMode;
     public int numberOfBriks = 8;
     Sound soundBadAnswer,soundGoodAnswer;
+    List<String> wordsToDiscover;
+    List<String> nonDiscoverWords;
+    List<String> discoverWord;
 
     public Board(Stage stage, MyGame game, ILeverReader level) {
         this.stage = stage;
@@ -37,15 +40,23 @@ public class Board implements IHelpulInformation{
 
         bricks = new BrickInArray[numberOfBriks][numberOfBriks];
         lettersToShoot = level.getLettersToShootDown();
+        Gdx.app.log("ll",lettersToShoot+" ");
+
         //todo change on real levelReader
+
         tab = level.getBoardLevel(1);
+        discoverWord=new ArrayList<>();
+        wordsToDiscover=level.getWords();
+        nonDiscoverWords=new ArrayList<>(wordsToDiscover.size()-1);
+        for(int a=0;a<wordsToDiscover.size()-1;a++){
+            nonDiscoverWords.add(wordsToDiscover.get(a));
+        }
+
         soundBadAnswer=game.assetManager.get("sound/no.mp3",Sound.class);
         soundGoodAnswer=game.assetManager.get("sound/correctSound.mp3", Sound.class);
-
-
     }
 
-    Label up, down;
+    public Label selectedWordLabel, down;
 
 
     public void addBoardToStage() {
@@ -54,14 +65,14 @@ public class Board implements IHelpulInformation{
         bitmapFont = game.assetManager.get("font1.ttf", BitmapFont.class);
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = bitmapFont;
-        up = new Label("up 0", labelStyle);
+        selectedWordLabel = new Label("selectedWordLabel 0", labelStyle);
         down = new Label("down 0", labelStyle);
-        up.setVisible(true);
+        selectedWordLabel.setVisible(true);
         down.setY(Gdx.graphics.getHeight() - 100);
-        up.setY(Gdx.graphics.getHeight() - 250);
+        selectedWordLabel.setY(Gdx.graphics.getHeight() - 250);
 
 
-        stage.addActor(up);
+        stage.addActor(selectedWordLabel);
         stage.addActor(down);
 
         //todo add labels
@@ -115,25 +126,46 @@ public class Board implements IHelpulInformation{
         buttonShoot.decriseNrOfShooting();
     }
 
+//    public void moveDownBricks(int x, int y) {
+//
+//        for (int i = y; i < numberOfBriks - 1; i++) {
+//            if (bricks[x][i + 1] != null) {
+//                bricks[x][i] = bricks[x][i + 1];
+//                bricks[x][i + 1].drop();
+//            }
+//                else {
+//                bricks[x][y] = null;
+//            }
+//        }
+//    }
+
     public void moveDownBricks(int x, int y) {
 
+        Gdx.app.log("nr",y+"     >>>>>");
         for (int i = y; i < numberOfBriks - 1; i++) {
+            //todo chceck egain
             if (bricks[x][i + 1] != null) {
                 bricks[x][i] = bricks[x][i + 1];
-                bricks[x][i + 1].drop();
+                bricks[x][i + 1].drop(1);
             }
-
-                bricks[x][y]=null;
-
+                else {
+                bricks[x][i] = null;
+            }
         }
+        bricks[x][numberOfBriks-1]=null;
     }
 
     public void cheakWord(ArrayList<BrickInArray> selectedBricks, String word, boolean isVertical) {
 
         if (isCorrectWord(word)) {
+            removeNonDiscoverWords(word);
+            discoverWord.add(word);
             correctAnswerEffect(selectedBricks, isVertical);
 
            //todo chceck is it end
+            if(isLVLend()){
+                endLevel();
+            }
         } else {
             soundBadAnswer.play();
             for (BrickInArray b : selectedBricks) {
@@ -144,6 +176,28 @@ public class Board implements IHelpulInformation{
 
     }
 
+    private void removeNonDiscoverWords(String word) {
+        for(String w:nonDiscoverWords){
+            if(word.equals(w)){
+                nonDiscoverWords.remove(w);
+                return;
+            }
+        }
+    }
+
+    private boolean isLVLend() {
+        if(wordsToDiscover.size()-1<=discoverWord.size()){
+            return true;
+        }
+        return false;
+    }
+
+    private void endLevel() {
+        //todo end level
+        Gdx.app.log("level end ","END");
+    }
+
+    //todo zrob blokoade po efectach by klikac nie można było
     private void correctAnswerEffect(ArrayList<BrickInArray> selectedBricks, boolean isVertical) {
         soundGoodAnswer.play();
         for (BrickInArray b : selectedBricks) {
@@ -164,7 +218,7 @@ public class Board implements IHelpulInformation{
             dropVerticalSelectedBriks(selectedBricks);
         }
     }
-
+    int test=0;
     private void dropVerticalSelectedBriks(ArrayList<BrickInArray> selectedBricks) {
         int dropSize=selectedBricks.size();
         int highestPositionY;
@@ -182,25 +236,94 @@ public class Board implements IHelpulInformation{
             lowestPositionY=yfirst;
         }
 
+        Gdx.app.log("horizontalSize",dropSize+"");
+        int jj=0;
         for(int j=0; j<dropSize;j++){
             bricks[x][lowestPositionY+j].setVisible(false);
             bricks[x][lowestPositionY+j]=null;
+        jj=j;
         }
-        for (int i = highestPositionY; i < numberOfBriks - 1; i++) {
-            if (bricks[x][i + 1] != null) {
-                bricks[x][i-dropSize+1] = bricks[x][i + 1];
-                bricks[x][i + 1].drop(dropSize);
+
+        Gdx.app.log("k",highestPositionY+"      k");
+        int a=lowestPositionY;
+        for(int k=highestPositionY;k<numberOfBriks;k++){
+            if(bricks[x][k]!=null){
+                bricks[x][k].drop(dropSize);
+                bricks[x][k-dropSize]=bricks[x][k];
+                bricks[x][k]=null;
             }
-            else{
-                bricks[x][i-dropSize+1] = null;
-            }
+//            bricks[x][a]=bricks[x][k];
+//            bricks[x][k]=null;
+//            if(bricks[x][a]!=null)
+//            bricks[x][a].drop(dropSize);
+//            a++;
+
         }
+
+
+//                int i = 0;
+//        Gdx.app.log("test",test+"   --------------------------------");
+//
+//        jj++;Gdx.app.log("jj",jj+"  jj");
+//        while (jj<numberOfBriks){
+//            if(bricks[x][jj]==null){
+//                bricks[x][lowestPositionY+i]=bricks[x][jj];
+//                break;
+//            }
+//        //bricks[x][jj].drop(dropSize);
+//
+//        bricks[x][lowestPositionY+i]=bricks[x][jj];
+//        bricks[x][jj]=null;
+//        bricks[x][lowestPositionY+i].drop(dropSize);
+//        i++;
+//        jj++;
+//        }
+
+
+//        for(int i=highestPositionY+1;i<numberOfBriks;i++){
+//
+//        break;
+//    }
+//    bricks[x][lowestPositionY+jjj]=bricks[x][i];
+//    bricks[x][i]=null;
+//    bricks[x][lowestPositionY+jjj].drop(dropSize);
+//    jjj++;
+//        }
+
+
+//        for (int i = highestPositionY; i < numberOfBriks - 1; i++) {
+//            if (bricks[x][i + 1] != null) {
+//                bricks[x][i-dropSize+1] = bricks[x][i + 1];
+//                bricks[x][i + 1].drop(dropSize);
+//            }
+//            else{
+//                bricks[x][i-dropSize+1] = null;
+//            }
+//        }
+    }
+
+    private void ShowBoardDebug() {
+        for (int j = numberOfBriks-1; j >=0; j--) {
+        Gdx.app.log("Board DEBUG SHOW",
+                bricks[0][j].getLetter()+" "+
+                bricks[1][j].getLetter()+" "+
+                bricks[2][j].getLetter()+" "+
+                bricks[3][j].getLetter()+" "+
+                bricks[4][j].getLetter()+" "+
+                bricks[5][j].getLetter()+" "+
+                bricks[6][j].getLetter()+" "+
+                bricks[7][j].getLetter()+" ");
+        };
     }
 
     private boolean isCorrectWord(String word) {
-        return true;
-        //todo iscorrectWord
-
+        for(int i=0;i<wordsToDiscover.size()-1;i++){
+            String w=wordsToDiscover.get(i);
+            if(word.equals(w)){
+                return true;
+            };
+        }
+        return false;
     }
 
     @Override
@@ -215,6 +338,6 @@ public class Board implements IHelpulInformation{
 
     @Override
     public List<String> getNotDiscoverWords() {
-        return null;
+        return nonDiscoverWords;
     }
 }
