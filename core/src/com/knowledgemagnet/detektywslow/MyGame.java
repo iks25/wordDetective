@@ -22,7 +22,7 @@ public class MyGame extends com.badlogic.gdx.Game {
 	}
 
 	public void startScreenPlay(){
-        this.setScreen(new PlayScreen(this,6));
+        this.setScreen(new PlayScreen(this,3));
     }
 	
 

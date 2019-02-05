@@ -5,4 +5,5 @@ package com.knowledgemagnet.detektywslow.game_objects.buttons;
  */
 
 public enum Direction {
+    up,down,right,left
 }

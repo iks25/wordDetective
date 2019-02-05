@@ -7,9 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.knowledgemagnet.detektywslow.IHelpulInformation;
 import com.knowledgemagnet.detektywslow.game_objects.Brick;
 import com.knowledgemagnet.detektywslow.game_objects.BrickInArray;
+import com.knowledgemagnet.detektywslow.game_objects.FindedWordPosition;
 import com.knowledgemagnet.detektywslow.game_objects.ViewFinder;
 
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -22,6 +26,8 @@ import jdk.nashorn.internal.runtime.arrays.ArrayIndex;
 class buttonFindClick implements EventListener {
     IHelpulInformation helpulInformation;
     ViewFinder viewFinder;
+    FindedWordPosition findedWordPosition;
+
 
 
 
@@ -33,10 +39,82 @@ class buttonFindClick implements EventListener {
     @Override
     public boolean handle(Event event) {
 
-        showBrickToShoot();
+        //todo change effect add some block
+        //showBrickToShoot();
+        //pointOutWord();
+        findedWordPosition=null;
+
+        pointOutWord();
+
+        if(findedWordPosition!=null){
+
+        }
+
+
 
         return false;
     }
+
+    private void pointOutWord() {
+
+        BrickInArray[][] bricks=helpulInformation.getBricksArray();
+        List<String> nonDiscoverWords=helpulInformation.getNotDiscoverWords();
+
+        PositionFinder positionFinder=new PositionFinder();
+        int numberOfBriks=bricks.length;
+        Character[][] bricksLetters=positionFinder.boardLetterCreate(bricks);
+//        System.out.println("     ");
+//        positionFinder.showArray(positionFinder.rotateArray(bricksLetters));
+//        System.out.println("     ");
+     //   bricksLetters=positionFinder.rotateArray(bricksLetters);
+
+        for (int x = 0; x < numberOfBriks; x++) {
+            for (int y = 0; y < numberOfBriks; y++) {
+                ArrayList<String> potentialWords=
+                        positionFinder.findWordsOnLetter(bricksLetters[x][y],nonDiscoverWords);
+                for(String checkedword:potentialWords){
+                    //is good in up
+                   if( positionFinder.isInUP(bricksLetters,checkedword,y,x)){
+                       bricks[x][y].wrongAnwer();
+                       int XX=x+checkedword.length()-1;
+                       int yy=y;
+                       bricks[XX][yy].wrongAnwer();
+                       findedWordPosition=new FindedWordPosition(x,y,XX,yy);
+                       System.out.println(potentialWords+"  UP");
+//                       System.out.println(" up xx yy "+XX+" "+yy+" "+x+" "+y+"  word= "+checkedword);
+                   return;
+                   }
+                   if(positionFinder.isInDown(bricksLetters,checkedword,y,x)){
+                       bricks[x][y].wrongAnwer();
+                       int XX=x-(checkedword.length()-1);
+                       int yy=y;
+                       bricks[XX][yy].wrongAnwer();
+                       findedWordPosition=new FindedWordPosition(x,y,XX,yy);
+                       System.out.println();
+                       System.out.println(" down xx yy "+XX+" "+yy+" "+x+" "+y+"  word= "+checkedword);
+                       return;
+                   }
+
+
+                }
+
+            }
+        }
+    }
+
+
+
+    private boolean isFirstLetterOfWors(Character character, List<String> nonDiscoverWords) {
+        for(String text:nonDiscoverWords){
+            if(character.equals(text.charAt(0))){
+                return true;
+            };
+
+        }
+        return false;
+    }
+
+
 
     private int showBrickToShoot() {
         BrickInArray[][] brickInArrays= helpulInformation.getBricksArray();

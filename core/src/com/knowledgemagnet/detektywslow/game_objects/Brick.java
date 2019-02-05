@@ -21,8 +21,8 @@ import com.knowledgemagnet.detektywslow.MyGame;
  * Created by Igor on 07.01.2019.
  */
 
-public class Brick extends Group{
-    char letter;
+public class Brick extends Group implements LetterContainer{
+    Character letter;
     int xPosition,yPosition;
     Image image;
     MyGame game;
@@ -162,7 +162,8 @@ public class Brick extends Group{
         return yPosition;
     }
 
-    public char getLetter() {
+    @Override
+    public Character getLetter() {
         return letter;
     }
 

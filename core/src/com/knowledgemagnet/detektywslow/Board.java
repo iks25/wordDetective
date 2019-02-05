@@ -40,7 +40,6 @@ public class Board implements IHelpulInformation{
 
         bricks = new BrickInArray[numberOfBriks][numberOfBriks];
         lettersToShoot = level.getLettersToShootDown();
-        Gdx.app.log("ll",lettersToShoot+" ");
 
         //todo change on real levelReader
 
@@ -141,7 +140,7 @@ public class Board implements IHelpulInformation{
 
     public void moveDownBricks(int x, int y) {
 
-        Gdx.app.log("nr",y+"     >>>>>");
+
         for (int i = y; i < numberOfBriks - 1; i++) {
             //todo chceck egain
             if (bricks[x][i + 1] != null) {
@@ -206,7 +205,6 @@ public class Board implements IHelpulInformation{
             //b.goodAnswerAnimation();
             b.setVisible(false);
         }
-        Gdx.app.log("is","isVertical   "+isVertical);
         if(!isVertical){
          for (BrickInArray brickInArray : selectedBricks) {
              brickInArray.goodAnswerAnimation();
@@ -236,7 +234,6 @@ public class Board implements IHelpulInformation{
             lowestPositionY=yfirst;
         }
 
-        Gdx.app.log("horizontalSize",dropSize+"");
         int jj=0;
         for(int j=0; j<dropSize;j++){
             bricks[x][lowestPositionY+j].setVisible(false);
@@ -244,7 +241,6 @@ public class Board implements IHelpulInformation{
         jj=j;
         }
 
-        Gdx.app.log("k",highestPositionY+"      k");
         int a=lowestPositionY;
         for(int k=highestPositionY;k<numberOfBriks;k++){
             if(bricks[x][k]!=null){
@@ -252,69 +248,9 @@ public class Board implements IHelpulInformation{
                 bricks[x][k-dropSize]=bricks[x][k];
                 bricks[x][k]=null;
             }
-//            bricks[x][a]=bricks[x][k];
-//            bricks[x][k]=null;
-//            if(bricks[x][a]!=null)
-//            bricks[x][a].drop(dropSize);
-//            a++;
-
         }
-
-
-//                int i = 0;
-//        Gdx.app.log("test",test+"   --------------------------------");
-//
-//        jj++;Gdx.app.log("jj",jj+"  jj");
-//        while (jj<numberOfBriks){
-//            if(bricks[x][jj]==null){
-//                bricks[x][lowestPositionY+i]=bricks[x][jj];
-//                break;
-//            }
-//        //bricks[x][jj].drop(dropSize);
-//
-//        bricks[x][lowestPositionY+i]=bricks[x][jj];
-//        bricks[x][jj]=null;
-//        bricks[x][lowestPositionY+i].drop(dropSize);
-//        i++;
-//        jj++;
-//        }
-
-
-//        for(int i=highestPositionY+1;i<numberOfBriks;i++){
-//
-//        break;
-//    }
-//    bricks[x][lowestPositionY+jjj]=bricks[x][i];
-//    bricks[x][i]=null;
-//    bricks[x][lowestPositionY+jjj].drop(dropSize);
-//    jjj++;
-//        }
-
-
-//        for (int i = highestPositionY; i < numberOfBriks - 1; i++) {
-//            if (bricks[x][i + 1] != null) {
-//                bricks[x][i-dropSize+1] = bricks[x][i + 1];
-//                bricks[x][i + 1].drop(dropSize);
-//            }
-//            else{
-//                bricks[x][i-dropSize+1] = null;
-//            }
-//        }
     }
 
-    private void ShowBoardDebug() {
-        for (int j = numberOfBriks-1; j >=0; j--) {
-        Gdx.app.log("Board DEBUG SHOW",
-                bricks[0][j].getLetter()+" "+
-                bricks[1][j].getLetter()+" "+
-                bricks[2][j].getLetter()+" "+
-                bricks[3][j].getLetter()+" "+
-                bricks[4][j].getLetter()+" "+
-                bricks[5][j].getLetter()+" "+
-                bricks[6][j].getLetter()+" "+
-                bricks[7][j].getLetter()+" ");
-        };
-    }
 
     private boolean isCorrectWord(String word) {
         for(int i=0;i<wordsToDiscover.size()-1;i++){
