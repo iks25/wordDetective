@@ -70,27 +70,109 @@ public class PositionFinderTest {
         //positionFinder.isInUP()
     }
 
-//    @Test
-////    public void isInDownTestShouldFail(){
-////        Character testBoard[][]=
-////                {
-////                        {'I','G','O','R'},
-////                        {'G','T',null,'P'},
-////                        {'A','U',null,'I'},
-////                        {null,'P',null,'K'},
-////                };
-////        String potentialWord = "IGA";
-////
-////        boolean my= positionFinder.isInDown(testBoard,potentialWord,0,3);//null position
-////        Assert.assertFalse(my);
-////
-////         my= positionFinder.isInDown(testBoard,potentialWord,1,1); //to long word
-////        Assert.assertFalse(my);
-////
-////        my= positionFinder.isInDown(testBoard,potentialWord,2,3); //Word is not correct
-////        Assert.assertFalse(my);
-//
-//    }
+    @Test
+    public void testIsInLeftShouldPass(){
+
+            Character testBoard[][]=
+                    {
+                            {'I','G','O','R'},
+                            {'G','T',null,'P'},
+                            {'A','U',null,'I'},
+                            {null,'P',null,'K'},
+                    };
+            // x x x x
+            // 0 1 2 3
+            // R P I K   y3
+            // O . . .   y2
+            // G T U P   y1
+            // I G A .   y0
+
+               int y=2;
+        String potentialWord = "PUT";
+        boolean result = positionFinder.isInLeft(testBoard, potentialWord, 1, 2); //null  position
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInLeft(testBoard, potentialWord, 1, 3);//tu big word
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInLeft(testBoard, potentialWord, 3, 3);//bad Word
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInLeft(testBoard, potentialWord, 3, 1);//isGood Word
+        Assert.assertTrue(result);
+
+    }
+
+
+    @Test
+    public void testIsInUP1ShouldPass(){
+
+        Character testBoard[][]=
+                {
+                        {'I','G','O','R'},
+                        {'G','B','U','T'},
+                        {'A','U',null,'I'},
+                        {null,'P',null,'K'},
+                };
+        // x x x x
+        // 0 1 2 3
+        // R T I K   y3
+        // O U . .   y2
+        // G B U P   y1
+        // I G A .   y0
+
+
+        String potentialWord = "BUT";
+        boolean result;
+        result = positionFinder.isInUP1(testBoard, potentialWord, 2, 2); //null  position
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInUP1(testBoard, potentialWord, 1, 3);//tu big word
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInUP1(testBoard, potentialWord, 0, 0);//bad Word
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInUP1(testBoard, potentialWord, 1, 1);//isGood Word
+        Assert.assertTrue(result);
+
+    }
+
+
+    @Test
+    public void testIsInDownShouldPass(){
+
+        Character testBoard[][]=
+                {
+                        {'I','G','O','R'},
+                        {'G','B','U','T'},
+                        {'A','G','O','D'},
+                        {null,'P',null,'K'},
+                };
+        // x x x x
+        // 0 1 2 3
+        // R T D K   y3
+        // O U O .   y2
+        // G B G P   y1
+        // I G A .   y0
+
+
+        String potentialWord = "DOG";
+        boolean result;
+        result = positionFinder.isInDown(testBoard, potentialWord, 2, 2); //null  position
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInDown(testBoard, potentialWord, 1, 1);//tu big word
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInDown(testBoard, potentialWord, 0, 3);//bad Word
+        Assert.assertFalse(result);
+
+        result = positionFinder.isInDown(testBoard, potentialWord, 2, 3);//isGood Word
+        Assert.assertTrue(result);
+
+    }
+
     @Test
     public void boardLetterCreateTestForEmpty(){
         LetterContainer[][] letterContainersArray=new LetterContainer[2][2];

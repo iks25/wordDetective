@@ -42,6 +42,12 @@ class buttonFindClick implements EventListener {
         //todo change effect add some block
         //showBrickToShoot();
         //pointOutWord();
+
+//        BrickInArray[][] bricks=helpulInformation.getBricksArray();
+//        PositionFinder positionFinder=new PositionFinder();
+//        Character[][] bricksLetters=positionFinder.boardLetterCreate(bricks);
+//
+//      System.out.println((char)bricksLetters[2][2]+(char)bricksLetters[2][3]+(char)bricksLetters[2][4]+"-------------------");
         findedWordPosition=null;
 
         pointOutWord();
@@ -84,16 +90,21 @@ class buttonFindClick implements EventListener {
 //                       System.out.println(" up xx yy "+XX+" "+yy+" "+x+" "+y+"  word= "+checkedword);
                    return;
                    }
-                   if(positionFinder.isInDown(bricksLetters,checkedword,y,x)){
-                       bricks[x][y].wrongAnwer();
-                       int XX=x-(checkedword.length()-1);
-                       int yy=y;
-                       bricks[XX][yy].wrongAnwer();
-                       findedWordPosition=new FindedWordPosition(x,y,XX,yy);
-                       System.out.println();
-                       System.out.println(" down xx yy "+XX+" "+yy+" "+x+" "+y+"  word= "+checkedword);
-                       return;
-                   }
+                    if( positionFinder.isInLeft(bricksLetters,checkedword,x,y)){
+                        bricks[x][y].wrongAnwer();
+                        bricks[x-(checkedword.length()-1)][y].wrongAnwer();
+                        return;
+                    }
+                    if( positionFinder.isInUP1(bricksLetters,checkedword,x,y)){
+                        bricks[x][y].wrongAnwer();
+                        bricks[x][y+(checkedword.length()-1)].wrongAnwer();
+                        return;
+                    }
+                    if(positionFinder.isInDown(bricksLetters,checkedword,x,y)){
+                        bricks[x][y].wrongAnwer();
+                        bricks[x][y-(checkedword.length()-1)].wrongAnwer();
+                        return;
+                    }
 
 
                 }

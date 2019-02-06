@@ -46,31 +46,63 @@ public class PositionFinder {
         return true;
     }
 
-    public boolean isInDown(Character[][] bricksLetters, String potentialWord, int y, int x) {
-        bricksLetters=rotateArray(bricksLetters);
-        if(potentialWord.equals("RAK")){
-            showArray(bricksLetters);}
-        if(x-potentialWord.length()+1<0){
-            if(potentialWord.equals("RAK")){
-                System.out.println(y-potentialWord.length()+1+"wordLe   )"+"y"+y+x);}
+    public boolean isInUP1(Character[][] bricksLetters, String potentialWord, int x, int y) {
+
+        if(bricksLetters[x][y]==null){
             return false;
         }
-        if(potentialWord.equals("RAK")){
-            System.out.println(y-potentialWord.length()+1+"wordLe   )"+"y"+y+x);
-            System.out.println(y-potentialWord.length()+1+"wordLe   )"+"y"+y+x);}
-        int nr=0;
-        for(int a=x;a>x-potentialWord.length();a--) {
-            if (bricksLetters[a][y] == null){
-                if(potentialWord.equals("RAK")){
-                    System.out.println("null");}
-                return false;}
-            if (!bricksLetters[x][a].equals(potentialWord.charAt(nr))) {
+        if(y+(potentialWord.length()-1)>bricksLetters.length-1){
+            return false;
+        }
+        for(int a=0;a<potentialWord.length();a++){
+            if(bricksLetters[x][y+a]==null){
                 return false;
             }
-            nr++;
+            if(!bricksLetters[x][y+a].equals(potentialWord.charAt(a))){
+                return false;
+            }
         }
         return true;
+    }
 
+    public boolean isInDown(Character[][] bricksLetters, String potentialWord, int x, int y) {
+
+        if(bricksLetters[x][y]==null){
+            return false;
+        }
+        if(y-(potentialWord.length()-1)<0){
+            return false;
+        }
+        for(int a=0;a<potentialWord.length();a++){
+            if(bricksLetters[x][y-a]==null){
+                return false;
+            }
+            if(!bricksLetters[x][y-a].equals(potentialWord.charAt(a))){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isInLeft(Character[][] bricksLetters, String potentialWord, int x, int y) {
+
+        if(bricksLetters[x][y]==null){
+            return false;
+        }
+        if(x-(potentialWord.length()-1)<0){
+            return false;
+        }
+        for(int a=0;a<potentialWord.length();a++){
+            if(bricksLetters[x-a][y]==null){
+                return false;
+            }
+            if(!bricksLetters[x-a][y].equals(potentialWord.charAt(a))){
+                return false;
+            }
+        }
+
+    return true;
     }
 
     public void showArray(Character[][] testBoard) {
