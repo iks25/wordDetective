@@ -1,13 +1,13 @@
-Y;0;R;0;0;O;0;0
-N;C;�;0;0;W;0;0
-O;Z;?;0;0;N;0;0
-L;A;�;0;�;A;0;0
-E;R;O;Z;Y;J;0;0
-I;N;W;�;?;Y;T;0
-Z;Y;Y;?;Y;C;I;Y
+﻿0;0;R;0;0;O;0;0
+0;C;Ó;0;0;W;0;0
+0;Z;?;0;0;N;0;0
+0;A;Ż;0;Ł;A;0;0
+0;R;O;Z;Y;J;0;0
+0;N;W;Ł;?;Y;T;0
+0;Y;Y;?;Y;C;I;Y
 B;I;A;B;U;R;Y;S
 
 kolory: 
 
-BURY;BIA�Y;SIWY;SZARY;Z�OTY;ZӣTY;CZARNY;ZIELONY;RӯWY;CYJAN;
+BURY;BIAŁY;SIWY;SZARY;ZŁOTY;ZÓŁTY;CZARNY;RÓŻOWY;CYJAN;
 C;R;M

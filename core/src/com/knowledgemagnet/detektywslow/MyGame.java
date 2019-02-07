@@ -1,12 +1,7 @@
 package com.knowledgemagnet.detektywslow;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.knowledgemagnet.detektywslow.screens.MenuScreen;
 
 public class MyGame extends com.badlogic.gdx.Game {
 
@@ -22,7 +17,8 @@ public class MyGame extends com.badlogic.gdx.Game {
 	}
 
 	public void startScreenPlay(){
-        this.setScreen(new PlayScreen(this,1));
+	    this.setScreen(new PlayScreen(this,5));
+       // this.setScreen(new MenuScreen(this));
     }
 	
 

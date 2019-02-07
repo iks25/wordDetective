@@ -3,6 +3,7 @@ package com.knowledgemagnet.detektywslow;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -17,6 +18,7 @@ import com.knowledgemagnet.detektywslow.screens.YouWonWindow;
  */
 
 public class PlayScreen extends AbstractScreen {
+    public int lvlNumber;
     Brick brick;
     ParticleEffect particleEffect;
     Board board;
@@ -25,19 +27,21 @@ public class PlayScreen extends AbstractScreen {
 
 
     public PlayScreen(MyGame game) {
-        super(game,1);
+        super(game);
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
     public PlayScreen(MyGame game,int lvlNumber) {
-        super(game, lvlNumber);
+        super(game);
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        this.lvlNumber=lvlNumber;
+        init();
 
     }
 
 
 
     @Override
-    protected void init(int lvlNumber) {
+    protected void init() {
 
         ReadLVLFile lvlFile=new ReadLVLFile(this.lvlNumber);
         ILeverReader level=new ReadLVLFile(this.lvlNumber);

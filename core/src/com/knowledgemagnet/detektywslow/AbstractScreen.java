@@ -20,21 +20,20 @@ public abstract class AbstractScreen  implements Screen{
     private OrthographicCamera camera;
     protected SpriteBatch spriteBatch;
     protected ShapeRenderer shapeRenderer;
-    public int lvlNumber;
 
 
-    public AbstractScreen(MyGame game,int lvlNumber){
+
+    public AbstractScreen(MyGame game){
         this.game = game;
         createCamera();
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         spriteBatch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
         shapeRenderer=new ShapeRenderer();
-        this.lvlNumber=lvlNumber;
-        init(lvlNumber);
+
     }
 
-    protected abstract void init(int lvlNumber);
+    protected abstract void init();
 
     private void createCamera() {
         camera = new OrthographicCamera();
@@ -51,7 +50,7 @@ public abstract class AbstractScreen  implements Screen{
         stage.act(Gdx.graphics.getDeltaTime());
     }
     private void clearScreen() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
     //todo można strzelac w nieistniejacego brica

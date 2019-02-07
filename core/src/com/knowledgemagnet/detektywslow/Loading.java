@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
@@ -60,12 +61,17 @@ class Loading implements Screen {
 
 
         loadFont1();
+        myGame.assetManager.load("font/balo1.fnt", BitmapFont.class);
+        myGame.assetManager.load("font/vvv.fnt", BitmapFont.class);
+
+
 
 
     }
 
     private void loadFont1() {
-
+        FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
+        FreeTypeFontGenerator.setMaxTextureSize(2048);
         String path="font/Baloo-Regular.ttf";     //can be inside nested folder
         String fileName = "font1.ttf" ;
 
@@ -74,9 +80,10 @@ class Loading implements Screen {
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-        FreetypeFontLoader.FreeTypeFontLoaderParameter parms = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        FreetypeFontLoader.FreeTypeFontLoaderParameter parms =
+                new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parms.fontFileName = path;    // path of .ttf file where that exist
-        parms.fontParameters.size= (int) (32*Gdx.graphics.getDensity());
+        parms.fontParameters.size= (int) (25*Gdx.graphics.getDensity());
         parms.fontParameters.borderColor= new Color(0,0,0,0.5f);
         parms.fontParameters.borderWidth=(int)(2*Gdx.graphics.getDensity());
         parms.fontParameters.color=new Color(240f/255f,243f/255f,203f/255f,0.8f);
@@ -84,6 +91,26 @@ class Loading implements Screen {
         manager.finishLoading();
     }
 
+
+//    private void loadFont1() {
+//
+//        String path="font/Baloo-Regular.ttf";     //can be inside nested folder
+//        String fileName = "font1.ttf" ;
+//
+//        AssetManager manager=myGame.assetManager;
+//        FileHandleResolver resolver = new InternalFileHandleResolver();
+//        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+//        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+//
+//        FreetypeFontLoader.FreeTypeFontLoaderParameter parms = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+//        parms.fontFileName = path;    // path of .ttf file where that exist
+//        parms.fontParameters.size= (int) (32*Gdx.graphics.getDensity());
+//        parms.fontParameters.borderColor= new Color(0,0,0,0.5f);
+//        parms.fontParameters.borderWidth=(int)(2*Gdx.graphics.getDensity());
+//        parms.fontParameters.color=new Color(240f/255f,243f/255f,203f/255f,0.8f);
+//        manager.load(fileName, BitmapFont.class, parms);   // fileName with extension, sameName will use to get from manager
+//        manager.finishLoading();
+//    }
 
     @Override
     public void show() {
