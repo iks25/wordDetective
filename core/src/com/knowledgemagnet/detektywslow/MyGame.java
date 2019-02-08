@@ -1,6 +1,7 @@
 package com.knowledgemagnet.detektywslow;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.knowledgemagnet.detektywslow.screens.LevelsSelectScreen;
 import com.knowledgemagnet.detektywslow.screens.MenuScreen;
 
 public class MyGame extends com.badlogic.gdx.Game {
@@ -17,8 +18,9 @@ public class MyGame extends com.badlogic.gdx.Game {
 	}
 
 	public void startScreenPlay(){
-	    this.setScreen(new PlayScreen(this,5));
-       // this.setScreen(new MenuScreen(this));
+	   // this.setScreen(new PlayScreen(this,5));
+      //  this.setScreen(new MenuScreen(this));
+        this.setScreen(new LevelsSelectScreen(this));
     }
 	
 

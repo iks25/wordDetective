@@ -33,7 +33,7 @@ public class ReadLVLFile implements ILeverReader{
         splitedFile=fileString.split("\n");
         int nr=0;
         for(int a=7;a>=0;a--){
-            String row[]=splitedFile[a].split(";");
+            String row[]=splitedFile[a+1].split(";");
             for(int i=0;i<8;i++){
                 board[i][nr]=row[i].charAt(0);
                 Gdx.app.log("row "+nr,""+board[i][nr]);
@@ -41,16 +41,16 @@ public class ReadLVLFile implements ILeverReader{
             nr++;
         }
 
-        text=splitedFile[9];
+        text=splitedFile[9+1];
         Gdx.app.log("text ","------->  "+text);
         //todo nastepne
 
        words=new ArrayList<String>();
-       String a[]= splitedFile[11].split(";");
+       String a[]= splitedFile[11+1].split(";");
        words= Arrays.asList(a);
 
         lettersToShoot=new ArrayList<Character>();
-        String letters[]= splitedFile[12].split(";");
+        String letters[]= splitedFile[12+1].split(";");
         for(int j=0;j<letters.length;j++){
             lettersToShoot.add(letters[j].charAt(0));
             Gdx.app.log("text ","------->  "+letters[j].charAt(0));

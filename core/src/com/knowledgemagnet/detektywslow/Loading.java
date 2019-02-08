@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
@@ -58,9 +57,14 @@ class Loading implements Screen {
         myGame.assetManager.load("menu.png", Texture.class);
         myGame.assetManager.load("nextlevel.png", Texture.class);
         myGame.assetManager.load("youWin.png", Texture.class);
+        myGame.assetManager.load("board.png", Texture.class);
+        myGame.assetManager.load("buttonLevel.png", Texture.class);
+        myGame.assetManager.load("lock.png", Texture.class);
+        myGame.assetManager.load("wybierzlevel.png", Texture.class);
 
 
         loadFont1();
+        loadFont2();
         myGame.assetManager.load("font/balo1.fnt", BitmapFont.class);
         myGame.assetManager.load("font/vvv.fnt", BitmapFont.class);
 
@@ -83,10 +87,34 @@ class Loading implements Screen {
         FreetypeFontLoader.FreeTypeFontLoaderParameter parms =
                 new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         parms.fontFileName = path;    // path of .ttf file where that exist
-        parms.fontParameters.size= (int) (25*Gdx.graphics.getDensity());
+        parms.fontParameters.size= (int) (35*Gdx.graphics.getDensity());
         parms.fontParameters.borderColor= new Color(0,0,0,0.5f);
         parms.fontParameters.borderWidth=(int)(2*Gdx.graphics.getDensity());
         parms.fontParameters.color=new Color(240f/255f,243f/255f,203f/255f,0.8f);
+        manager.load(fileName, BitmapFont.class, parms);   // fileName with extension, sameName will use to get from manager
+        manager.finishLoading();
+    }
+
+
+    private void loadFont2() {
+        FreeTypeFontGenerator.setMaxTextureSize(FreeTypeFontGenerator.NO_MAXIMUM);
+        FreeTypeFontGenerator.setMaxTextureSize(2048);
+        String path="font/Baloo-Regular.ttf";     //can be inside nested folder
+        String fileName = "font2.ttf" ;
+
+        AssetManager manager=myGame.assetManager;
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter parms =
+                new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        parms.fontFileName = path;    // path of .ttf file where that exist
+        parms.fontParameters.size= (int) (44*Gdx.graphics.getDensity());
+        parms.fontParameters.borderColor= new Color(0,0,0,0.5f);
+        parms.fontParameters.borderWidth=(int)(3*Gdx.graphics.getDensity());
+       // parms.fontParameters.color=new Color(240f/255f,243f/255f,203f/255f,0.8f);
+        parms.fontParameters.color=Color.WHITE;
         manager.load(fileName, BitmapFont.class, parms);   // fileName with extension, sameName will use to get from manager
         manager.finishLoading();
     }
