@@ -21,6 +21,9 @@ import java.util.List;
  */
 
 public class Board implements IHelpulInformation{
+
+
+    String title;
     char tab[][];
     List<Character> lettersToShoot;
     public BrickInArray[][] bricks;
@@ -38,6 +41,7 @@ public class Board implements IHelpulInformation{
         this.stage = stage;
         this.game = game;
 
+        title=level.getText();
         bricks = new BrickInArray[numberOfBriks][numberOfBriks];
         lettersToShoot = level.getLettersToShootDown();
 
@@ -55,24 +59,36 @@ public class Board implements IHelpulInformation{
         soundGoodAnswer=game.assetManager.get("sound/correctSound.mp3", Sound.class);
     }
 
-    public Label selectedWordLabel, down;
+    public Label selectedWordLabel, titleLabel;
 
 
     public void addBoardToStage() {
 
         BitmapFont bitmapFont;
-        bitmapFont = game.assetManager.get("font1.ttf", BitmapFont.class);
+        //bitmapFont = game.assetManager.get("font2.ttf", BitmapFont.class);
+        bitmapFont = game.assetManager.get("font/balo.fnt", BitmapFont.class);
+        float density=Gdx.graphics.getDensity();
+
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = bitmapFont;
+
         selectedWordLabel = new Label("selectedWordLabel 0", labelStyle);
-        down = new Label("down 0", labelStyle);
+
+
+        title=title+density;
+        titleLabel = new Label(title, labelStyle);
+
+
         selectedWordLabel.setVisible(true);
-        down.setY(Gdx.graphics.getHeight() - 100);
+        titleLabel.setY(Gdx.graphics.getHeight() - 100);
         selectedWordLabel.setY(Gdx.graphics.getHeight() - 250);
+
+        AppearanceManager appearanceManager=new AppearanceManager();
+        appearanceManager.centerHorizontally(titleLabel);
 
 
         stage.addActor(selectedWordLabel);
-        stage.addActor(down);
+        stage.addActor(titleLabel);
 
         //todo add labels
 
@@ -276,4 +292,13 @@ public class Board implements IHelpulInformation{
     public List<String> getNotDiscoverWords() {
         return nonDiscoverWords;
     }
+    public String getTitle() {
+        return title;
+    }
+
+    public List<String> getWordsToDiscover() {
+        return wordsToDiscover;
+    }
 }
+
+

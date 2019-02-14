@@ -142,6 +142,7 @@ public class LevelsSelectScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("test1","test1"+nr);
                 //todo level choose
+                    game.playLevel(nr);
                 super.clicked(event, x, y);
             }
         });

@@ -35,6 +35,19 @@ public class AppearanceManager {
     public void setAbove(int position,float margin,Actor actor){
         actor.setY(position+margin);
     }
+    public void setTopInside(Actor positionActor,float margin,Actor actor){
+        float top=positionActor.getY()+positionActor.getHeight()*positionActor.getScaleY();
+        float actorSize=actor.getHeight()*actor.getScaleY();
+
+        actor.setY(top-actorSize-margin);
+    }
+
+    public void setRightInside(Actor positionActor,float margin,Actor actor){
+        float top=positionActor.getX()+positionActor.getWidth()*positionActor.getScaleX();
+        float actorSize=actor.getWidth()*actor.getScaleX();
+
+        actor.setX(top-actorSize-margin);
+    }
 
 
     public void setAbove(Actor actorPosition,float margin,Actor actor){

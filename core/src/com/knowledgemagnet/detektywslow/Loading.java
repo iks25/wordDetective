@@ -61,12 +61,16 @@ class Loading implements Screen {
         myGame.assetManager.load("buttonLevel.png", Texture.class);
         myGame.assetManager.load("lock.png", Texture.class);
         myGame.assetManager.load("wybierzlevel.png", Texture.class);
-
+        myGame.assetManager.load("page.png", Texture.class);
+        myGame.assetManager.load("ptaszek.png", Texture.class);
+        myGame.assetManager.load("clouse.png", Texture.class);
+        myGame.assetManager.load("tlo.png", Texture.class);
+        myGame.assetManager.load("sutcase.png", Texture.class);
 
         loadFont1();
         loadFont2();
-        myGame.assetManager.load("font/balo1.fnt", BitmapFont.class);
-        myGame.assetManager.load("font/vvv.fnt", BitmapFont.class);
+        myGame.assetManager.load("font/balo.fnt", BitmapFont.class);
+        myGame.assetManager.load("font/baloblack.fnt", BitmapFont.class);
 
 
 

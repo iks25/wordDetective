@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,7 +18,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 public abstract class AbstractScreen  implements Screen{
 
     public MyGame game;
-    protected Stage stage;
+    public Stage stage;
+    private Texture bg;
     private OrthographicCamera camera;
     protected SpriteBatch spriteBatch;
     protected ShapeRenderer shapeRenderer;
@@ -26,6 +29,7 @@ public abstract class AbstractScreen  implements Screen{
     public AbstractScreen(MyGame game){
         this.game = game;
         createCamera();
+        bg=game.assetManager.get("tlo.png", Texture.class);
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         spriteBatch = new SpriteBatch();
         Gdx.input.setInputProcessor(stage);
@@ -46,6 +50,9 @@ public abstract class AbstractScreen  implements Screen{
         clearScreen();
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
+        spriteBatch.begin();
+        spriteBatch.draw(bg,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight()+10);
+        spriteBatch.end();
         stage.draw();
         stage.act(Gdx.graphics.getDeltaTime());
     }

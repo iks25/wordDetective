@@ -30,14 +30,13 @@ public class Letter {
         String text=c+"";
         Label label=new Label(text,labelStyle);
 
-        BitmapFont cos = game.assetManager.get("font/balo1.fnt", BitmapFont.class);
+        BitmapFont cos = game.assetManager.get("font/balo.fnt", BitmapFont.class);
+
 
         Label.LabelStyle labelStyle2=new Label.LabelStyle();
         labelStyle2.font=cos;
         Label label1=new Label(text,labelStyle2) ;
-        label1.setDebug(true);
 
-        label.setDebug(true);
         return label1;
     }
 }

@@ -3,14 +3,13 @@ package com.knowledgemagnet.detektywslow;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.knowledgemagnet.detektywslow.game_objects.Brick;
-import com.knowledgemagnet.detektywslow.game_objects.BrickInArray;
+import com.knowledgemagnet.detektywslow.game_objects.MyPage;
 import com.knowledgemagnet.detektywslow.game_objects.Spark;
-import com.knowledgemagnet.detektywslow.game_objects.buttons.Direction;
+import com.knowledgemagnet.detektywslow.game_objects.buttons.ButtonSuitCase;
 import com.knowledgemagnet.detektywslow.screens.YouWonWindow;
 
 /**
@@ -24,6 +23,8 @@ public class PlayScreen extends AbstractScreen {
     Board board;
     YouWonWindow wonWindow;
     Spark spark;
+
+    
 
 
     public PlayScreen(MyGame game) {
@@ -49,6 +50,7 @@ public class PlayScreen extends AbstractScreen {
         board.addBoardToStage();
         board.addButtonsToStage();
 
+
         particleEffect=new ParticleEffect();
         particleEffect.load(Gdx.files.internal("starbuu"),Gdx.files.internal(""));
         particleEffect.getEmitters().first().setPosition(250,600);
@@ -60,15 +62,22 @@ public class PlayScreen extends AbstractScreen {
         button.setWidth(150);
         button.setHeight(150);
         button.setDebug(true);
-        stage.addActor(button);
+
+        MyPage page = new MyPage(this,board);
+        page.show();
+        ButtonSuitCase buttonSuitCase=new ButtonSuitCase(this,page);
+        stage.addActor(buttonSuitCase);
 
         button.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                board.getBricksArray()[1][1].wrongAnwer();
-                board.getBricksArray()[4][1].wrongAnwer();
-                spark.showSpark(board.getBricksArray()[1][1],board.getBricksArray()[4][1], Direction.up);
-                super.clicked(event, x, y);
+//                board.getBricksArray()[1][1].wrongAnwer();
+//                board.getBricksArray()[4][1].wrongAnwer();
+//                spark.showSpark(board.getBricksArray()[1][1],board.getBricksArray()[4][1], Direction.up);
+
+
+
+              super.clicked(event, x, y);
             }
         });
 
@@ -80,6 +89,7 @@ public class PlayScreen extends AbstractScreen {
 
     }
 
+   
 
 
     @Override
